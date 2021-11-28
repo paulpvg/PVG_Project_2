@@ -6,12 +6,12 @@ public class App {
     public static final String ANSI_GREEN = "\u001B[32m";
     public static final String ANSI_CYAN = "\u001B[36m";
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
 
 
         System.out.println(ANSI_CYAN +"--------------------------------------------------------------------------------------------\n" +
-                                      "            Задание №2. Перенесите сценарии для своего проекта. Добавьте ассерты. \n" +
-                                      "                                 Добавте пару новых тест-кейсов\n" +
+                                      "              Задание №1. Проведите рефакторинг в соответствии с PageObject. \n" +
+                                      "                                 Для своего проекта Nimbus\n" +
                                       "--------------------------------------------------------------------------------------------\n" + ANSI_RESET);
 
     }
