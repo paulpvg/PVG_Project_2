@@ -321,8 +321,8 @@ public class  NimbusTest{
         new WebDriverWait(driver, 2).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()=\"Empty\"]")));
 
         boolean newFolderDeletingOK = false;
-        webElementList = driver.findElements(By.xpath("//span[@tooltip-message=\"Test folder\"]"));
-        if (webElementList.size() == 0){
+        webElementList = driver.findElements(By.xpath("//span[text()=\"Empty\"]"));
+        if (webElementList.size() >= 1){
             newFolderDeletingOK = true;
             logger.info(ANSI_GREEN + "Новая папка успешно удалена" + ANSI_RESET);
         }
