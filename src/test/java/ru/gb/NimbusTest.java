@@ -60,29 +60,23 @@ public class  NimbusTest{
         webElement = driver.findElement(By.xpath("//button/span[contains(text(),'SIGN IN')]"));
         webElement.click();
 
+        //убийство рекламы, роняющей тест
+        new WebDriverWait(driver, 5).until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@style=\"display: block;\"]")));
+        List<WebElement> webElementList = driver.findElements(By.xpath("//div[@style=\"display: block;\"]"));
+        if(webElementList.size() >= 1){
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+            js.executeScript("arguments[0].setAttribute('style', 'display: none;')",webElementList.get(0));
+        }
+
         //проверка на успешную авторизацию
         boolean authorizationOK = false;
-        List<WebElement> webElementList = driver.findElements(By.xpath("//div[contains(text(),\"ppvg@list.ru\")]"));
+        webElementList = driver.findElements(By.xpath("//div[contains(text(),\"ppvg@list.ru\")]"));
         if(webElementList.size() == 1) {
             authorizationOK = true;
             logger.info(ANSI_GREEN + "Авторизация прошла успешно" + ANSI_RESET);
         }
 
-        webElement = driver.findElement(By.xpath("//div[contains(text(),\"ppvg@list.ru\")]"));
-        webElement.click();
-
-        webElement = driver.findElement(By.xpath("//div[contains(text(),\"Log out\")]"));
-        webElement.click();
-
-        //проверка на успешное разлогинивание
-        boolean logOutOK = false;
-        webElementList = driver.findElements(By.xpath("//form[@method=\"POST\"]/input[@name=\"login\"]"));
-        if(webElementList.size() == 1) {
-            logOutOK = true;
-            logger.info(ANSI_GREEN + "Разлогинились успешно" + ANSI_RESET);
-        }
-
-        assertTrue(authorizationOK && logOutOK);
+        assertTrue(authorizationOK);
     }
 
     @Test
@@ -102,6 +96,7 @@ public class  NimbusTest{
         webElement.click();
 
         //убийство рекламы, роняющей тест
+        new WebDriverWait(driver, 5).until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@style=\"display: block;\"]")));
         List<WebElement> webElementList = driver.findElements(By.xpath("//div[@style=\"display: block;\"]"));
         if(webElementList.size() >= 1){
             JavascriptExecutor js = (JavascriptExecutor) driver;
@@ -199,6 +194,14 @@ public class  NimbusTest{
         webElement = driver.findElement(By.xpath("//button/span[contains(text(),'SIGN IN')]"));
         webElement.click();
 
+        //убийство рекламы, роняющей тест
+        new WebDriverWait(driver, 5).until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@style=\"display: block;\"]")));
+        List<WebElement> webElementList = driver.findElements(By.xpath("//div[@style=\"display: block;\"]"));
+        if(webElementList.size() >= 1){
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+            js.executeScript("arguments[0].setAttribute('style', 'display: none;')",webElementList.get(0));
+        }
+
         webElement = driver.findElement(By.xpath("//input[@placeholder=\"Search\"]"));
         webElement.sendKeys("питание");
 
@@ -209,7 +212,7 @@ public class  NimbusTest{
         boolean searchNegative = false;
 
         //проверка на то, что поиск отработал
-        List<WebElement> webElementList = driver.findElements(By.xpath("//span[contains(text(),\"Found notes:\")]"));
+        webElementList = driver.findElements(By.xpath("//span[contains(text(),\"Found notes:\")]"));
         if (webElementList.size() >= 1){
             searchPositive = true;
             logger.info(ANSI_GREEN + "Поиск успешно отработал" + ANSI_RESET);
@@ -238,6 +241,14 @@ public class  NimbusTest{
         webElement = driver.findElement(By.xpath("//button/span[contains(text(),'SIGN IN')]"));
         webElement.click();
 
+        //убийство рекламы, роняющей тест
+        new WebDriverWait(driver, 5).until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@style=\"display: block;\"]")));
+        List<WebElement> webElementList = driver.findElements(By.xpath("//div[@style=\"display: block;\"]"));
+        if(webElementList.size() >= 1){
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+            js.executeScript("arguments[0].setAttribute('style', 'display: none;')",webElementList.get(0));
+        }
+
         webElement = driver.findElement(By.xpath("//input[@placeholder=\"Search\"]"));
         webElement.sendKeys("ненаходимоеслово");
 
@@ -248,7 +259,7 @@ public class  NimbusTest{
         boolean searchNegative = false;
 
         //проверка на то, что поиск отработал
-        List<WebElement> webElementList = driver.findElements(By.xpath("//span[contains(text(),\"Found notes:\")]"));
+        webElementList = driver.findElements(By.xpath("//span[contains(text(),\"Found notes:\")]"));
         if (webElementList.size() >= 1){
             searchPositive = true;
             logger.info(ANSI_GREEN + "Поиск успешно отработал" + ANSI_RESET);
@@ -277,6 +288,14 @@ public class  NimbusTest{
         webElement = driver.findElement(By.xpath("//button/span[contains(text(),'SIGN IN')]"));
         webElement.click();
 
+        //убийство рекламы, роняющей тест
+        new WebDriverWait(driver, 5).until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@style=\"display: block;\"]")));
+        List<WebElement> webElementList = driver.findElements(By.xpath("//div[@style=\"display: block;\"]"));
+        if(webElementList.size() >= 1){
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+            js.executeScript("arguments[0].setAttribute('style', 'display: none;')",webElementList.get(0));
+        }
+
         webElement = driver.findElement(By.xpath("//svg-icon[@tooltip-message=\"Create folder\"]"));
         webElement.click();
 
@@ -288,7 +307,7 @@ public class  NimbusTest{
 
         //проверка на успешное создание новой папки
         boolean newFolderCreatingOK = false;
-        List<WebElement> webElementList = driver.findElements(By.xpath("//span[@tooltip-message=\"Test folder\"]"));
+        webElementList = driver.findElements(By.xpath("//span[@tooltip-message=\"Test folder\"]"));
         if (webElementList.size() >= 1){
             newFolderCreatingOK = true;
             logger.info(ANSI_GREEN + "Новая папка создана успешно" + ANSI_RESET);
