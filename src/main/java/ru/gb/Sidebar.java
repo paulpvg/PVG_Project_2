@@ -4,10 +4,13 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.*;
 
+import org.openqa.selenium.support.ui.*;
+
 import org.slf4j.*;
 
 import java.util.List;
 
+//Боковое меню
 public class Sidebar {
 
     public static final String ANSI_RESET = "\u001B[0m";
@@ -49,17 +52,17 @@ public class Sidebar {
     @FindBy(xpath = "//span[text()=\"Empty\"]")
     private List<WebElement> emptyLabelList;
 
+    @FindBy(xpath = "//p[text()=\"Loading...\"]")
+    private WebElement loading;
+
     public Sidebar(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
     }
 
-    public void logout() {
-        loginControlList.get(0).click();
-        logoutButton.click();
-    }
-
     public void emptyTrash() {
+
+        new WebDriverWait(driver, 3);
         Actions actions = new Actions(driver);
         actions.contextClick(trashControl).perform();
 
@@ -71,6 +74,7 @@ public class Sidebar {
     public void creatingNewFolder() {
         folderCreateButton.click();
         folderInputName.sendKeys("Test folder");
+        new WebDriverWait(driver, 5).until(ExpectedConditions.not(ExpectedConditions.attributeContains(createButton, "disabled", "disabled")));
         createButton.click();
     }
 

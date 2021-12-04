@@ -36,20 +36,22 @@ public class  NimbusTest{
 
     @Test
     @DisplayName("Авторизация на сайте. Позитивный тест")
-    void authorizationPositiveTest() throws InterruptedException {
+    void authorizationPositiveTest() {
         LoginPage loginPage = new LoginPage(driver);
         loginPage.loginIn("ppvg@list.ru", "gfhjkmgf");
+
+        //Убийство рекламы, рушащей тесты
+        AdBlock adBlock = new AdBlock(driver);
+        adBlock.killAdBlock();
 
         Sidebar sidebar = new Sidebar(driver);
 
         assertTrue(sidebar.loginOk());
-
-        sidebar.logout();
     }
 
     @Test
     @DisplayName("Авторизация на сайте. Негативный тест")
-    void authorizationNegativeTest() throws InterruptedException {
+    void authorizationNegativeTest() {
         LoginPage loginPage = new LoginPage(driver);
         loginPage.loginIn("pvg@kremlin.ru", "gfhjkmgf");
 
@@ -60,15 +62,16 @@ public class  NimbusTest{
 
     @Test
     @DisplayName("Создание новой записи")
-    void newNoteCreatingTest() {
+    void newNoteCreatingTest() throws InterruptedException {
         LoginPage loginPage = new LoginPage(driver);
         loginPage.loginIn("ppvg@list.ru", "gfhjkmgf");
 
-        NotesList notesList = new NotesList(driver);
-        notesList.creatingNewNote();
-
+        //Убийство рекламы, рушащей тесты
         AdBlock adBlock = new AdBlock(driver);
         adBlock.killAdBlock();
+
+        NotesList notesList = new NotesList(driver);
+        notesList.creatingNewNote();
 
         NoteBody noteBody = new NoteBody(driver)
                 .inputHeader("Morbi in nisl auctor")
@@ -97,6 +100,8 @@ public class  NimbusTest{
 
         assertTrue(notesList.creatingNewNoteOk());
 
+        Thread.sleep(2000); // Полюбуемся пару секунд на созданную запись, пред тем как удалить ее
+
         TopPanelActions topPanelActions = new TopPanelActions(driver);
         topPanelActions.deleteNote();
 
@@ -112,6 +117,10 @@ public class  NimbusTest{
         LoginPage loginPage = new LoginPage(driver);
         loginPage.loginIn("ppvg@list.ru", "gfhjkmgf");
 
+        //Убийство рекламы, рушащей тесты
+        AdBlock adBlock = new AdBlock(driver);
+        adBlock.killAdBlock();
+
         NotesList notesList = new NotesList(driver);
         notesList.search("питание");
 
@@ -123,6 +132,10 @@ public class  NimbusTest{
     void searchNegativeTest() {
         LoginPage loginPage = new LoginPage(driver);
         loginPage.loginIn("ppvg@list.ru", "gfhjkmgf");
+
+        //Убийство рекламы, рушащей тесты
+        AdBlock adBlock = new AdBlock(driver);
+        adBlock.killAdBlock();
 
         NotesList notesList = new NotesList(driver);
         notesList.search("ненаходимоеслово");
@@ -136,10 +149,16 @@ public class  NimbusTest{
         LoginPage loginPage = new LoginPage(driver);
         loginPage.loginIn("ppvg@list.ru", "gfhjkmgf");
 
+        //Убийство рекламы, рушащей тесты
+        AdBlock adBlock = new AdBlock(driver);
+        adBlock.killAdBlock();
+
         Sidebar sidebar = new Sidebar(driver);
         sidebar.creatingNewFolder();
 
         assertTrue(sidebar.creatingNewFolderOk());
+
+        Thread.sleep(2000); // Полюбуемся пару секунд на созданную папку, пред тем как удалить ее
 
         sidebar.deletingNewFolder();
         sidebar.emptyTrash();

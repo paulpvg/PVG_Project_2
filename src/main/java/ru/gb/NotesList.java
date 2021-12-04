@@ -2,10 +2,12 @@ package ru.gb;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.*;
+import org.openqa.selenium.support.ui.*;
 import org.slf4j.*;
 
 import java.util.List;
 
+//Область страницы с перечнем записей и поиском
 public class NotesList {
 
     public static final String ANSI_RESET = "\u001B[0m";
@@ -44,6 +46,7 @@ public class NotesList {
 
     public void search(String text) {
         searchInput.sendKeys(text);
+        new WebDriverWait(driver, 3).until(ExpectedConditions.visibilityOf(searchButton));
         searchButton.click();
     }
 

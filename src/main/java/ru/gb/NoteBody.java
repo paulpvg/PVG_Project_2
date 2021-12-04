@@ -4,6 +4,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.*;
 import org.openqa.selenium.support.ui.*;
 
+//Область страницы с телом записи
 public class NoteBody {
 
     private WebDriver driver;
@@ -28,13 +29,16 @@ public class NoteBody {
     @FindBy(xpath = "//li[contains(@class,\"focused-block\")]")
     private WebElement bodyTodoInput;
 
+    @FindBy(xpath = "//p[text()=\"Loading...\"]")
+    private WebElement loading;
+
     public NoteBody(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
     }
 
     public NoteBody inputHeader(String header) {
-        new WebDriverWait(driver, 3).until(ExpectedConditions.visibilityOf(headerControl));
+        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(headerControl));
         headerControl.click();
         headerInput.sendKeys(header);
         return this;

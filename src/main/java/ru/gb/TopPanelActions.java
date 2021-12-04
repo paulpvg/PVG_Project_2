@@ -3,7 +3,7 @@ package ru.gb;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.*;
 
-
+//Верхняя панель - меню
 public class TopPanelActions {
 
     private WebDriver driver;

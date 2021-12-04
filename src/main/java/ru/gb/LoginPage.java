@@ -2,6 +2,7 @@ package ru.gb;
 
 import org.openqa.selenium.*;
 
+//Стартовая страница авторизации
 public class LoginPage {
 
     private WebDriver driver;
