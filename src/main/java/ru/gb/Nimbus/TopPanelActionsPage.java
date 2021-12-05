@@ -1,12 +1,11 @@
-package ru.gb;
+package ru.gb.Nimbus;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.*;
 
 //Верхняя панель - меню
-public class TopPanelActions {
-
-    private WebDriver driver;
+public class TopPanelActionsPage extends AbstractPage {
 
     @FindBy(xpath = "//svg-icon[@icon=\"more\"]")
     private WebElement moreButton;
@@ -14,11 +13,11 @@ public class TopPanelActions {
     @FindBy(xpath = "//a[text()=\"Delete\"]")
     private WebElement deleteButton;
 
-    public TopPanelActions(WebDriver driver) {
-        this.driver = driver;
-        PageFactory.initElements(driver, this);
+    public TopPanelActionsPage(WebDriver driver) {
+        super(driver);
     }
 
+    @Step("Удаление созданной новой записи")
     public void deleteNote() {
         moreButton.click();
         deleteButton.click();

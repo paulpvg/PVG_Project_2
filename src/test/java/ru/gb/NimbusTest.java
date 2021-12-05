@@ -1,79 +1,67 @@
 package ru.gb;
 
+import io.qameta.allure.*;
+
 import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.*;
+import ru.gb.Nimbus.*;
 
-import org.slf4j.*;
-
-import java.util.concurrent.TimeUnit;
-
-import io.github.bonigarcia.wdm.WebDriverManager;
-
-public class  NimbusTest{
-
-    private WebDriver driver;
-    private static Logger logger = LoggerFactory.getLogger(NimbusTest.class);
-
-    @BeforeAll
-    static void enableDriver() {
-        WebDriverManager.chromedriver().setup();
-    }
-
-    @BeforeEach
-    void setupDriver() {
-        ChromeOptions chromeoptions = new ChromeOptions();
-        chromeoptions.addArguments("incognito");
-        chromeoptions.addArguments("start-maximized");
-
-        driver = new ChromeDriver(chromeoptions);
-
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        driver.get("https://pvg.nimbusweb.me/auth/?f=login&success=/client");
-    }
+public class  NimbusTest extends AbstractTest{
 
     @Test
+    @Epic("Тестирование авторизации")
+    @Feature("Позитивное тестирование")
+    @Description("Тест прохождения авторизации на сайте Nimbus существующего пользователя")
     @DisplayName("Авторизация на сайте. Позитивный тест")
     void authorizationPositiveTest() {
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage.loginIn("ppvg@list.ru", "gfhjkmgf");
+        new LoginPage(getDriver()).loginIn("ppvg@list.ru", "gfhjkmgf");
 
         //Убийство рекламы, рушащей тесты
-        AdBlock adBlock = new AdBlock(driver);
-        adBlock.killAdBlock();
+        new AdBlockPage(getDriver()).killAdBlock();
 
-        Sidebar sidebar = new Sidebar(driver);
-
-        assertTrue(sidebar.loginOk());
+        assertTrue(new SidebarPage(getDriver()).loginOk());
     }
 
     @Test
-    @DisplayName("Авторизация на сайте. Негативный тест")
-    void authorizationNegativeTest() {
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage.loginIn("pvg@kremlin.ru", "gfhjkmgf");
+    @Epic("Тестирование авторизации")
+    @Feature("Негативное тестирование")
+    @Story("Несуществующий логин")
+    @Description("Тест прохождения авторизации на сайте Nimbus несуществующего пользователя")
+    @DisplayName("Авторизация на сайте. Негативный тест - логин")
+    void authorizationNegativeLoginTest() {
+        new LoginPage(getDriver()).loginIn("pvg@kremlin.ru", "gfhjkmgf");
 
-        Sidebar sidebar = new Sidebar(driver);
-
-        assertFalse(sidebar.loginOk());
+        assertFalse(new SidebarPage(getDriver()).loginOk());
     }
 
     @Test
+    @Epic("Тестирование авторизации")
+    @Feature("Негативное тестирование")
+    @Story("Неправильный пароль")
+    @Description("Тест прохождения авторизации на сайте Nimbus существующего пользователя с неверным паролем")
+    @DisplayName("Авторизация на сайте. Негативный тест - пароль")
+    void authorizationNegativePasswordTest() {
+        new LoginPage(getDriver()).loginIn("ppvg@list.ru", "password");
+
+        assertFalse(new SidebarPage(getDriver()).loginOk());
+    }
+
+    @Test
+    @Description("Тест создания новой заметки на сайте Nimbus")
     @DisplayName("Создание новой записи")
     void newNoteCreatingTest() throws InterruptedException {
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage.loginIn("ppvg@list.ru", "gfhjkmgf");
+        new LoginPage(getDriver()).loginIn("ppvg@list.ru", "gfhjkmgf");
 
         //Убийство рекламы, рушащей тесты
-        AdBlock adBlock = new AdBlock(driver);
-        adBlock.killAdBlock();
+        new AdBlockPage(getDriver()).killAdBlock();
 
-        NotesList notesList = new NotesList(driver);
-        notesList.creatingNewNote();
+        //Создание новой заметки
+        NotesListPage notesListPage = new NotesListPage(getDriver());
+        notesListPage.creatingNewNote();
 
-        NoteBody noteBody = new NoteBody(driver)
+        //Наполнение новой заметки
+        NoteBodyPage noteBodyPage = new NoteBodyPage(getDriver())
                 .inputHeader("Morbi in nisl auctor")
                 .inputFirstText("Lorem ipsum dolor sit amet, consectetur adipisicing elit,sheets containing Lorem" +
                                 "Ipsum passages sed do, At vero eos et accusamus et iusto odio digs qui blanditiis\n")
@@ -98,79 +86,79 @@ public class  NimbusTest{
                                "et lectus fringilla, at pharetra nulla luctus. Nunc cursus, augue ac ultricies volutpat, neque erat congue justo, ac pretium tellus" +
                                "eros a neque. Integer ipsum sem, consectetur a mollis ac, cursus eu ipsum.");
 
-        assertTrue(notesList.creatingNewNoteOk());
+        assertTrue(notesListPage.creatingNewNoteOk());
 
-        Thread.sleep(2000); // Полюбуемся пару секунд на созданную запись, пред тем как удалить ее
+        Thread.sleep(2000); // Полюбуемся пару секунд на созданную заметку, пред тем как удалить ее
 
-        TopPanelActions topPanelActions = new TopPanelActions(driver);
-        topPanelActions.deleteNote();
+        //Удаление созданной заметки
+        new TopPanelActionsPage(getDriver()).deleteNote();
 
-        Sidebar sidebar = new Sidebar(driver);
-        sidebar.emptyTrash();
+        //Очистка корзины
+        SidebarPage sidebarPage = new SidebarPage(getDriver());
+        sidebarPage.emptyTrash();
 
-        assertTrue(sidebar.emptyTrashOk());
+        assertTrue(sidebarPage.emptyTrashOk());
     }
 
     @Test
+    @Epic("Тестирование поиска")
+    @Feature("Позитивное тестирование")
+    @Description("Тест поиска на сайте Nimbus среди существующих заметок встречающегося в них слова ")
     @DisplayName("Поиск на сайте. Позитивный тест")
     void searchPositiveTest() {
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage.loginIn("ppvg@list.ru", "gfhjkmgf");
+        new LoginPage(getDriver()).loginIn("ppvg@list.ru", "gfhjkmgf");
 
         //Убийство рекламы, рушащей тесты
-        AdBlock adBlock = new AdBlock(driver);
-        adBlock.killAdBlock();
+        new AdBlockPage(getDriver()).killAdBlock();
 
-        NotesList notesList = new NotesList(driver);
-        notesList.search("питание");
+        //Поиск
+        NotesListPage notesListPage = new NotesListPage(getDriver());
+        notesListPage.search("питание");
 
-        assertTrue(notesList.searchPositiveOk() && !notesList.searchNegativeOk());
+        //Проверка на наличие положительного позитивного и отрицательного негативного признаков результата поиска
+        assertTrue(notesListPage.searchPositiveOk() && !notesListPage.searchNegativeOk());
     }
 
     @Test
+    @Epic("Тестирование поиска")
+    @Feature("Негативное тестирование")
+    @Description("Тест поиска на сайте Nimbus среди существующих заметок заведомо невстречающегося в них слова")
     @DisplayName("Поиск на сайте. Негативный тест")
     void searchNegativeTest() {
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage.loginIn("ppvg@list.ru", "gfhjkmgf");
+        new LoginPage(getDriver()).loginIn("ppvg@list.ru", "gfhjkmgf");
 
         //Убийство рекламы, рушащей тесты
-        AdBlock adBlock = new AdBlock(driver);
-        adBlock.killAdBlock();
+        new AdBlockPage(getDriver()).killAdBlock();
 
-        NotesList notesList = new NotesList(driver);
-        notesList.search("ненаходимоеслово");
+        //Поиск
+        NotesListPage notesListPage = new NotesListPage(getDriver());
+        notesListPage.search("ненаходимоеслово");
 
-        assertTrue(notesList.searchPositiveOk() && notesList.searchNegativeOk());
+        //Проверка на наличие положительного негативного признаков результата поиска
+        assertTrue(notesListPage.searchNegativeOk());
     }
 
     @Test
+    @Description("Тест создания новой папки для заметок на сайте Nimbus")
     @DisplayName("Создание новой папки")
     void newFolderCreatingTest() throws InterruptedException {
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage.loginIn("ppvg@list.ru", "gfhjkmgf");
+        new LoginPage(getDriver()).loginIn("ppvg@list.ru", "gfhjkmgf");
 
         //Убийство рекламы, рушащей тесты
-        AdBlock adBlock = new AdBlock(driver);
-        adBlock.killAdBlock();
+        new AdBlockPage(getDriver()).killAdBlock();
 
-        Sidebar sidebar = new Sidebar(driver);
-        sidebar.creatingNewFolder();
+        //Создание новой папки
+        SidebarPage sidebarPage = new SidebarPage(getDriver());
+        sidebarPage.creatingNewFolder();
 
-        assertTrue(sidebar.creatingNewFolderOk());
+        assertTrue(sidebarPage.creatingNewFolderOk());
 
         Thread.sleep(2000); // Полюбуемся пару секунд на созданную папку, пред тем как удалить ее
 
-        sidebar.deletingNewFolder();
-        sidebar.emptyTrash();
+        //Удаление созданной папки и очистка корзины
+        sidebarPage.deletingNewFolder();
+        sidebarPage.emptyTrash();
 
-        assertTrue(sidebar.emptyTrashOk());
-    }
-
-    @AfterEach
-    void releaseDriver() throws InterruptedException {
-        if(driver != null) {
-            Thread.sleep(5000);
-            driver.quit();
-        }
+        assertTrue(sidebarPage.emptyTrashOk());
     }
 }

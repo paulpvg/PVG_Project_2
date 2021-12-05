@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: ru.gb.NimbusTest
 -------------------------------------------------------------------------------
-Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 281.683 s - in ru.gb.NimbusTest
+Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 160.807 s - in ru.gb.NimbusTest

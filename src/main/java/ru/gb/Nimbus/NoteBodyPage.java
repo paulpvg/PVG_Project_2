@@ -1,13 +1,14 @@
-package ru.gb;
+package ru.gb.Nimbus;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.*;
 import org.openqa.selenium.support.ui.*;
 
-//Область страницы с телом записи
-public class NoteBody {
+import java.time.Duration;
 
-    private WebDriver driver;
+//Область страницы с телом заметки
+public class NoteBodyPage extends AbstractPage {
 
     @FindBy(xpath = "//h1[text()=\"New note\"]")
     private WebElement headerControl;
@@ -32,35 +33,39 @@ public class NoteBody {
     @FindBy(xpath = "//p[text()=\"Loading...\"]")
     private WebElement loading;
 
-    public NoteBody(WebDriver driver) {
-        this.driver = driver;
-        PageFactory.initElements(driver, this);
+    public NoteBodyPage(WebDriver driver) {
+        super(driver);
     }
 
-    public NoteBody inputHeader(String header) {
-        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(headerControl));
+    @Step("Ввод заголовка")
+    public NoteBodyPage inputHeader(String header) {
+        new WebDriverWait(getDriver(), Duration.ofSeconds(10)).until(ExpectedConditions.visibilityOf(headerControl));
         headerControl.click();
         headerInput.sendKeys(header);
         return this;
     }
 
-    public NoteBody inputFirstText(String text) {
+    @Step("Ввод первого абзаца текста")
+    public NoteBodyPage inputFirstText(String text) {
         bodyFirstInput.sendKeys(text);
         return this;
     }
 
-    public NoteBody inputNextText(String text) {
+    @Step("Ввод последующего абзаца текста")
+    public NoteBodyPage inputNextText(String text) {
         bodyNextInput.sendKeys(text);
         return this;
     }
 
-    public NoteBody inputNumberedlist(String text) {
+    @Step("Ввод нумерованного списка")
+    public NoteBodyPage inputNumberedlist(String text) {
         bodyNumberedlistControl.click();
         bodyNumberedlistInput.sendKeys(text);
         return this;
     }
 
-    public NoteBody inputTodo(String text) {
+    @Step("Ввод перечня задач")
+    public NoteBodyPage inputTodo(String text) {
         bodyTodoControl.click();
         bodyTodoInput.sendKeys(text);
         return this;

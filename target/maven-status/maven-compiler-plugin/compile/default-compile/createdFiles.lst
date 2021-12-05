@@ -1,7 +1,8 @@
-ru\gb\LoginPage.class
-ru\gb\TopPanelActions.class
+ru\gb\Nimbus\AdBlockPage.class
 ru\gb\App.class
-ru\gb\AdBlock.class
-ru\gb\NotesList.class
-ru\gb\NoteBody.class
-ru\gb\Sidebar.class
+ru\gb\Nimbus\NoteBodyPage.class
+ru\gb\Nimbus\LoginPage.class
+ru\gb\Nimbus\TopPanelActionsPage.class
+ru\gb\Nimbus\AbstractPage.class
+ru\gb\Nimbus\NotesListPage.class
+ru\gb\Nimbus\SidebarPage.class

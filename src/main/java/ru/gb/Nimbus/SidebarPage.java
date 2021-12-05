@@ -1,26 +1,18 @@
-package ru.gb;
+package ru.gb.Nimbus;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.*;
-
 import org.openqa.selenium.support.ui.*;
 
-import org.slf4j.*;
+import ru.gb.*;
 
+import java.time.Duration;
 import java.util.List;
 
 //Боковое меню
-public class Sidebar {
-
-    public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_RED = "\u001B[31m";
-    public static final String ANSI_GREEN = "\u001B[32m";
-    public static final String ANSI_CYAN = "\u001B[36m";
-    public static final String ANSI_YELLOW = "\u001B[33m";
-
-    private WebDriver driver;
-    private static Logger logger = LoggerFactory.getLogger(Sidebar.class);
+public class SidebarPage extends AbstractPage {
 
     @FindBy(xpath = "//div[contains(text(),\"ppvg@list.ru\")]")
     private List<WebElement> loginControlList;
@@ -55,15 +47,15 @@ public class Sidebar {
     @FindBy(xpath = "//p[text()=\"Loading...\"]")
     private WebElement loading;
 
-    public Sidebar(WebDriver driver) {
-        this.driver = driver;
-        PageFactory.initElements(driver, this);
+    public SidebarPage(WebDriver driver) {
+        super(driver);
     }
 
+    @Step("Очистка корзины")
     public void emptyTrash() {
+        new WebDriverWait(getDriver(), Duration.ofSeconds(5)).until(ExpectedConditions.visibilityOf(trashControl));
 
-        new WebDriverWait(driver, 3);
-        Actions actions = new Actions(driver);
+        Actions actions = new Actions(getDriver());
         actions.contextClick(trashControl).perform();
 
         emptyTrashButton.click();
@@ -71,51 +63,58 @@ public class Sidebar {
         allNotesControl.click();
     }
 
+    @Step("Создание новой папки")
     public void creatingNewFolder() {
         folderCreateButton.click();
         folderInputName.sendKeys("Test folder");
-        new WebDriverWait(driver, 5).until(ExpectedConditions.not(ExpectedConditions.attributeContains(createButton, "disabled", "disabled")));
+
+        new WebDriverWait(getDriver(), Duration.ofSeconds(5)).until(ExpectedConditions.not(ExpectedConditions.attributeContains(createButton, "disabled", "disabled"))); //Без этого иногда кнопка не успевала становиться активной
+
         createButton.click();
     }
 
+    @Step("Удаление созданной папки")
     public void deletingNewFolder() {
-        Actions actions = new Actions(driver);
+        Actions actions = new Actions(getDriver());
         actions.contextClick(testFolderControlList.get(0)).perform();
 
         folderDeleteButton.click();
         yesButton.click();
     }
 
+    @Step("Проверка на успешность создания новой папки")
     public boolean creatingNewFolderOk() throws InterruptedException {
-        if (testFolderControlList.size() >= 1){
-            logger.info(ANSI_GREEN + "Новая папка успешно создана" + ANSI_RESET);
+        if (testFolderControlList.size() >= 1) {
+            ScreenshotMaker.makeScreenshot(getDriver(), FileName.getFilename() + "-creatingNewFolderOk.png");
             Thread.sleep(2000); //хоть пару секунд полюбуемся на созданную папку, пред тем как убить ее
             return true;
         }
         else {
-            logger.error(ANSI_RED + "Не удалось создать новую папку" + ANSI_RESET);
+            ScreenshotMaker.makeScreenshot(getDriver(), FileName.getFilename() + "-creatingNewFolderOk_Error.png");
             return false;
         }
     }
 
+    @Step("Проверка на успешную аторизацию")
     public boolean loginOk() {
         if (loginControlList.size() >= 1){
-            logger.info(ANSI_GREEN + "Успешно залогинились" + ANSI_RESET);
+            ScreenshotMaker.makeScreenshot(getDriver(), FileName.getFilename() + "-loginOk.png");
             return true;
         }
         else {
-            logger.error(ANSI_RED + "Не удалось залогиниться" + ANSI_RESET);
+            ScreenshotMaker.makeScreenshot(getDriver(), FileName.getFilename() + "-loginOk_Error.png");
             return false;
         }
     }
 
+    @Step("Проверка на успешную очистку корзины")
     public boolean emptyTrashOk() {
-        if (emptyLabelList.size() >= 1){
-            logger.info(ANSI_GREEN + "Корзина пуста. Весь тестовый мусор удален" + ANSI_RESET);
+        if (emptyLabelList.size() >= 1) {
+            ScreenshotMaker.makeScreenshot(getDriver(), FileName.getFilename() + "-emptyTrashOk.png");
             return true;
         }
         else {
-            logger.error(ANSI_RED + "Не удалось очистить корзину" + ANSI_RESET);
+            ScreenshotMaker.makeScreenshot(getDriver(), FileName.getFilename() + "-emptyTrashOk_Error.png");
             return false;
         }
     }
