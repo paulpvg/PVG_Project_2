@@ -1,0 +1,2 @@
+[2021-12-05T09:17:35.682Z] [SEVERE] https://pvg.nimbusweb.me/user-marketing-info/ - Failed to load resource: the server responded with a status of 401 ()
+[2021-12-05T09:17:44.307Z] [SEVERE] https://dojq4kt8ws9iq.cloudfront.net/static/assets/nimbus-app.09aecd793b5cb56093ab.js 148507:24 "Socket connection timeout error: 5000 ms"

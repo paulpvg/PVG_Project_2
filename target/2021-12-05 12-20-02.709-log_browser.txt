@@ -1,0 +1,3 @@
+[2021-12-05T09:19:51.410Z] [SEVERE] https://pvg.nimbusweb.me/user-marketing-info/ - Failed to load resource: the server responded with a status of 401 ()
+[2021-12-05T09:20:01.735Z] [SEVERE] https://dojq4kt8ws9iq.cloudfront.net/static/assets/nimbus-app.09aecd793b5cb56093ab.js 40510:12 Uncaught TypeError: Cannot read properties of null (reading 'classList')
+[2021-12-05T09:20:01.735Z] [SEVERE] https://dojq4kt8ws9iq.cloudfront.net/static/assets/nimbus-app.09aecd793b5cb56093ab.js 40693:45 "Socket connection timeout error: 5000 ms"
