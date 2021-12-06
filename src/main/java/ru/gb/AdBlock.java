@@ -21,7 +21,7 @@ public class AdBlock {
     }
 
     public void killAdBlock() {
-        new WebDriverWait(driver, 5).until(ExpectedConditions.presenceOfElementLocated(By.xpath(closeControlXpath))); // по .visibilityOf(WebElement) не срабатывает, пришлось так ловить
+        new WebDriverWait(driver, 5).until(ExpectedConditions.presenceOfElementLocated(By.xpath(closeControlXpath))); // .visibilityOf(WebElement) не срабатывает, пришлось так ловить
         if (this.closeControl.size() >=1){
             JavascriptExecutor js = (JavascriptExecutor) driver;
                 js.executeScript("arguments[0].setAttribute('style', 'display: none;')",closeControl.get(0));

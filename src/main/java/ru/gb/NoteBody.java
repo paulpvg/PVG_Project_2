@@ -41,28 +41,33 @@ public class NoteBody {
         new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(headerControl));
         headerControl.click();
         headerInput.sendKeys(header);
+
         return this;
     }
 
     public NoteBody inputFirstText(String text) {
         bodyFirstInput.sendKeys(text);
+
         return this;
     }
 
     public NoteBody inputNextText(String text) {
         bodyNextInput.sendKeys(text);
+
         return this;
     }
 
     public NoteBody inputNumberedlist(String text) {
         bodyNumberedlistControl.click();
         bodyNumberedlistInput.sendKeys(text);
+
         return this;
     }
 
     public NoteBody inputTodo(String text) {
         bodyTodoControl.click();
         bodyTodoInput.sendKeys(text);
+
         return this;
     }
 }

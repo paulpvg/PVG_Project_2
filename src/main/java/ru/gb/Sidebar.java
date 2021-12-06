@@ -74,7 +74,9 @@ public class Sidebar {
     public void creatingNewFolder() {
         folderCreateButton.click();
         folderInputName.sendKeys("Test folder");
-        new WebDriverWait(driver, 5).until(ExpectedConditions.not(ExpectedConditions.attributeContains(createButton, "disabled", "disabled")));
+
+        new WebDriverWait(driver, 5).until(ExpectedConditions.not(ExpectedConditions.attributeContains(createButton, "disabled", "disabled"))); //без этого иногда кнопка не успевает стать активной
+
         createButton.click();
     }
 
@@ -89,11 +91,14 @@ public class Sidebar {
     public boolean creatingNewFolderOk() throws InterruptedException {
         if (testFolderControlList.size() >= 1){
             logger.info(ANSI_GREEN + "Новая папка успешно создана" + ANSI_RESET);
+
             Thread.sleep(2000); //хоть пару секунд полюбуемся на созданную папку, пред тем как убить ее
+
             return true;
         }
         else {
             logger.error(ANSI_RED + "Не удалось создать новую папку" + ANSI_RESET);
+
             return false;
         }
     }
@@ -101,10 +106,12 @@ public class Sidebar {
     public boolean loginOk() {
         if (loginControlList.size() >= 1){
             logger.info(ANSI_GREEN + "Успешно залогинились" + ANSI_RESET);
+
             return true;
         }
         else {
             logger.error(ANSI_RED + "Не удалось залогиниться" + ANSI_RESET);
+
             return false;
         }
     }
@@ -112,10 +119,12 @@ public class Sidebar {
     public boolean emptyTrashOk() {
         if (emptyLabelList.size() >= 1){
             logger.info(ANSI_GREEN + "Корзина пуста. Весь тестовый мусор удален" + ANSI_RESET);
+
             return true;
         }
         else {
             logger.error(ANSI_RED + "Не удалось очистить корзину" + ANSI_RESET);
+
             return false;
         }
     }

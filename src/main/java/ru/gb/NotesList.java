@@ -53,10 +53,12 @@ public class NotesList {
     public boolean creatingNewNoteOk() {
         if (newNotePresentList.size() >= 1){
             logger.info(ANSI_GREEN + "Новая запись успешно создана" + ANSI_RESET);
+
             return true;
         }
         else {
             logger.error(ANSI_RED + "Не удалось создать новую запись" + ANSI_RESET);
+
             return false;
         }
     }
@@ -64,6 +66,7 @@ public class NotesList {
     public boolean searchPositiveOk() {
         if (searchPositiveList.size() >= 1){
             logger.info(ANSI_GREEN + "Поиск успешно отработал" + ANSI_RESET);
+
             return true;
         }
         else return false;
@@ -72,6 +75,7 @@ public class NotesList {
     public boolean searchNegativeOk(){
         if (searchNegativeList.size() >= 1){
             logger.info(ANSI_GREEN + "По результатам поиска ничего не найдено" + ANSI_RESET);
+
             return true;
         }
         else return false;
