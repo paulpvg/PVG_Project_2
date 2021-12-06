@@ -8,8 +8,7 @@ import org.openqa.selenium.chrome.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.*;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.slf4j.*;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -205,6 +204,8 @@ public class  NimbusTest{
         webElement = driver.findElement(By.xpath("//input[@placeholder=\"Search\"]"));
         webElement.sendKeys("питание");
 
+        new WebDriverWait(driver,5).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//svg-icon[@icon=\"search\"][@class=\"ng-isolate-scope\"]")));
+
         webElement = driver.findElement(By.xpath("//svg-icon[@icon=\"search\"][@class=\"ng-isolate-scope\"]"));
         webElement.click();
 
@@ -251,6 +252,9 @@ public class  NimbusTest{
 
         webElement = driver.findElement(By.xpath("//input[@placeholder=\"Search\"]"));
         webElement.sendKeys("ненаходимоеслово");
+
+        new WebDriverWait(driver,5).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//svg-icon[@icon=\"search\"][@class=\"ng-isolate-scope\"]")));
+
 
         webElement = driver.findElement(By.xpath("//svg-icon[@icon=\"search\"][@class=\"ng-isolate-scope\"]"));
         webElement.click();
@@ -302,6 +306,8 @@ public class  NimbusTest{
         webElement = driver.findElement(By.xpath("//input[@name=\"folderTitle\"]"));
         webElement.sendKeys("Test folder");
 
+        new WebDriverWait(driver, 5).until(ExpectedConditions.not(ExpectedConditions.attributeContains(By.xpath("//a[text()=\"Create\"]"), "disabled", "disabled"))); //Без этого иногда кнопка не успевает стать активной
+
         webElement = driver.findElement(By.xpath("//a[text()=\"Create\"]"));
         webElement.click();
 
@@ -336,8 +342,6 @@ public class  NimbusTest{
 
         webElement = driver.findElement(By.xpath("//span[@tooltip-message=\"My Notes\"]"));
         webElement.click();
-
-        new WebDriverWait(driver, 2).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()=\"Empty\"]")));
 
         boolean newFolderDeletingOK = false;
         webElementList = driver.findElements(By.xpath("//span[text()=\"Empty\"]"));
